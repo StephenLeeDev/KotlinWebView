@@ -8,6 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
 
     private val webView: WebView by lazy {
         findViewById(R.id.webView)
+    }
+
+    private val swipeRefreshLayout: SwipeRefreshLayout by lazy {
+        findViewById(R.id.swipeRefreshLayout)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +70,9 @@ class MainActivity : AppCompatActivity() {
         goForwardButton.setOnClickListener {
             webView.goForward()
         }
+        swipeRefreshLayout.setOnRefreshListener {
+            webView.reload()
+        }
     }
 
     override fun onBackPressed() {
@@ -72,6 +80,14 @@ class MainActivity : AppCompatActivity() {
             webView.goBack()
         } else {
             super.onBackPressed()
+        }
+    }
+
+    inner class WebViewClient : android.webkit.WebViewClient() {
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+
+            swipeRefreshLayout.isRefreshing = false
         }
     }
 
