@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import android.webkit.URLUtil
 import android.webkit.WebView
 import android.widget.EditText
 import android.widget.ImageButton
@@ -62,7 +63,12 @@ class MainActivity : AppCompatActivity() {
     private fun bindViews() {
         addressBar.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                webView.loadUrl(v.text.toString())
+                val loadingUrl = v.text.toString()
+                if (URLUtil.isNetworkUrl(loadingUrl)) {
+                    webView.loadUrl(loadingUrl)
+                } else {
+                    webView.loadUrl("http://$loadingUrl")
+                }
             }
 
             return@setOnEditorActionListener false
@@ -102,6 +108,9 @@ class MainActivity : AppCompatActivity() {
 
             swipeRefreshLayout.isRefreshing = false
             progressBar.hide()
+            goBackButton.isEnabled = webView.canGoBack()
+            goForwardButton.isEnabled = webView.canGoForward()
+            addressBar.setText(url)
         }
     }
 

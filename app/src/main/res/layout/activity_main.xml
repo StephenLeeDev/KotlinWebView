@@ -31,11 +31,12 @@
             android:id="@+id/addressBar"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:autofillHints="no"
             android:background="@drawable/shape_address_bar"
             android:imeOptions="actionDone"
+            android:importantForAutofill="no"
             android:inputType="textUri"
-            android:padding="16dp"
+            android:paddingHorizontal="16dp"
+            android:selectAllOnFocus="true"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/goBackButton"
@@ -90,7 +91,6 @@
         android:layout_height="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar"
-        />
+        app:layout_constraintTop_toBottomOf="@id/toolBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
